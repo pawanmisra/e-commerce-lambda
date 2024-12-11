@@ -1,11 +1,14 @@
 version: 0.2
 
 phases:
+  install:
+  commands:
+    - echo "Installing dependencies"
   build:
     commands:
-      - . scripts/deploy.sh
-      - sam package --template-file template.yaml --s3-bucket ${S3_BUCKET} --output-template-file packaged.yaml
+      - echo "Zipping the lambda function and AppSpec file"
+      - zip -f function.zip function appspec.yml
 artifacts:
   files:
-    - "packaged.yaml"
-  discard-paths: yes
+    - function.zip
+    - appspec.yml
