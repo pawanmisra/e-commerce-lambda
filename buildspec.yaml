@@ -7,7 +7,7 @@ phases:
   build:
     commands:
       - echo "Zipping the lambda function and AppSpec file"
-      - zip -r function.zip function/index.js appspec.yml
+      - zip -r function.zip index.js appspec.yml
 artifacts:
   files:
     - function.zip
