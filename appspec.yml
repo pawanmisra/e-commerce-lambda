@@ -4,6 +4,3 @@ Resources:
       Type: AWS::Lambda::Function
       Properties:
         Name: "e-commerce-api-lambda"
-        Alias: "default"
-        CurrentVersion: "1"
-        TargetVersion: "1"
