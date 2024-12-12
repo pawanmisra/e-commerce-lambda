@@ -1,4 +1,4 @@
-import { createProduct, deleteProduct, listAllProducts, updateProduct } from '../controllers/ProductController.mjs';
+import { createProduct, deleteProduct, getProductsById, listAllProducts, updateProduct } from '../controllers/ProductController.mjs';
 import { createProductTaxonomy, deleteProductTaxonomy, getProductTaxonomyById, listAllProductTaxonomies, updateProductTaxonomy } from '../controllers/ProductTaxanomyController.mjs';
 
 const pathResolvers = {
@@ -7,7 +7,7 @@ const pathResolvers = {
             return listAllProducts(event.arguments)
         }, 
         'getProductsById': (event) => {
-            return listAllProducts(event.arguments.productId)
+            return getProductsById(event.arguments.productId)
         }, 
         'listAllProductTaxonomies': (event) => {
             return listAllProductTaxonomies(event.arguments)
