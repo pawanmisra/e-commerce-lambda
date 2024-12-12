@@ -20,15 +20,12 @@ export const createProduct = async (event) => {
             stock,
             CreatedAt: timestamp,
             UpdatedAt: timestamp,
-        },
+        }
     };
 
     try {
         await dynamoDB.put(params).promise();
-        return {
-            statusCode: 201,
-            body: JSON.stringify({ message: 'Product created successfully' }),
-        };
+        return params.Item;
     } catch (error) {
         return {
             statusCode: 500,
@@ -57,15 +54,12 @@ export const updateProduct = async (event) => {
             ":c": category,
             ":s": stock,
             ":u": timestamp
-          }
+        }
     };
 
     try {
         await dynamoDB.update(params).promise();
-        return {
-            statusCode: 201,
-            body: JSON.stringify({ message: 'Product updated successfully' }),
-        };
+        return event.input ;
     } catch (error) {
         return {
             statusCode: 500,
@@ -84,10 +78,7 @@ export const deleteProduct = async (productId) => {
     
     try {
         await dynamoDB.delete(params).promise();
-        return {
-            statusCode: 201,
-            body: JSON.stringify({ message: 'Product deleted successfully' }),
-        };
+        return productId;
     } catch (error) {
         console.error('Error deleting product:', error);
         throw new Error('Could not delete product');

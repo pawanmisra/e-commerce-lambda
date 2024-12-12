@@ -23,10 +23,7 @@ export const createProductTaxonomy = async (event) => {
 
     try {
         await dynamoDB.put(params).promise();
-        return {
-            statusCode: 201,
-            body: JSON.stringify({ message: 'Product taxonomy created successfully' }),
-        };
+        return params.Item;
     } catch (error) {
         return {
             statusCode: 500,
@@ -60,15 +57,10 @@ export const updateProductTaxonomy = async (event) => {
 
     try {
         await dynamoDB.update(params).promise();
-        return {
-            statusCode: 201,
-            body: JSON.stringify({ message: 'Product taxonomy updated successfully' }),
-        };
+        return event.input
     } catch (error) {
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: error.message }),
-        };
+        console.error(error)
+        throw new Error('Could not update taxonomy'); 
     }
 };
 
@@ -103,20 +95,13 @@ export const deleteProductTaxonomy = async (taxonomyId) => {
         console.log(existingTaxonomyWithGivenIdAsParent)
         if (existingTaxonomyWithGivenIdAsParent) {
             console.log("inside if condition")
-            return {
-                statusCode: 409,
-                body: JSON.stringify({ message: 'Product taxonomy cannot be deleted as its already associated with other items.' }),
-            };
+            return 'Product taxonomy cannot be deleted as its already associated with other item(s).';
         }
-        console.log("after if condition")
         await dynamoDB.delete(params).promise();
-        return {
-            statusCode: 201,
-            body: JSON.stringify({ message: 'Product taxonomy successfully' }),
-        };
+        return taxonomyId;
     } catch (error) {
         console.error('Error deleting product taxonomy:', error);
-        throw new Error('Could not delete product taxonomy');
+        return 'Could not delete product taxonomy';
     }
 };
 

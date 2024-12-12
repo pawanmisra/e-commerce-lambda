@@ -14,11 +14,7 @@ export const handler = async (event) => {
     var result = await resolver(event);
     console.log(result);
     if (result) {
-      return {
-          statusCode: 200,
-          headers: responseHeaders,
-          body: JSON.stringify(result),
-      };
+      return result
     }
    }
    return {
