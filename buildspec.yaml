@@ -11,7 +11,7 @@ phases:
   post_build:
     commands:
       - echo "deploying the lambda"
-      - aws lambda update-function-code --function-name e-commerce-api-lambda --zip-file fileb://lambda-package.zip
+      - aws lambda update-function-code --function-name e-commerce-api-lambda --zip-file fileb://lambda-function.zip
 # needed for code deploy
 # artifacts:
 #   files:
