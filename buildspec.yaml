@@ -2,13 +2,16 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 18
     commands:
       - echo "Installing dependencies"
   build:
     commands:
       - echo "Zipping the lambda function and AppSpec file"
-      - zip -r function.zip index.js appspec.yml
+      - aws cloudformation package --template-file template.yaml --s3-bucket codepipeline-us-west-2-944498357013 --output-template-file outputTemplate.yaml
 artifacts:
+  type: zip
   files:
-    - function.zip
-    - appspec.yml
+    - template.yaml
+    - outputTemplate.yaml

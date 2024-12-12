@@ -1,0 +1,41 @@
+Parameters:
+  RuntimeEnv:
+    Type: String
+    Default: 'deployed'
+  ProductTable:
+    Type: String
+    Default: 'Products-2bzn42vh7nhcrm74cidhalg4yy-dev'
+
+Resources:
+
+  CreateLogGroup:
+    Type: 'AWS::Logs::LogGroup'
+    Properties:
+      LogGroupName: /aws/lambda/e-commerce-api-lambda
+      RetentionInDays: 14
+  e-commerce-api-lambda:
+    Type: "AWS::Lambda::Function"
+    DependsOn:
+      - CreateLogGroup
+    Properties:
+      Handler: 'index.handler'
+      MemorySize: 512
+      FunctionName: e-commerce-api-lambda
+
+      CodeUri: lambda-function/
+      Environment:
+        Variables:
+          LOG_LEVEL: INFO
+          S3_REGION_NAME:
+            Ref: AWS::Region
+          ACCOUNT_ID:
+            Ref: AWS::AccountId
+          RUNTIME_ENV:
+            Ref: RuntimeEnv
+          PRODUCT_TABLE_NAME:
+            Ref: ProductTable
+      Role:
+        Fn::GetAtt: 
+          - IAMRole
+          - Arn
+      Runtime: 'nodejs18.x'
