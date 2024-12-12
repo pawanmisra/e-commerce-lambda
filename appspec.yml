@@ -5,5 +5,5 @@ Resources:
       Properties:
         Name: "e-commerce-api-lambda"
         Alias: "default"
-        CurrentVersion: "1"
-        TargetVersion: "1"
+        CurrentVersion: "4"
+        TargetVersion: "4"
