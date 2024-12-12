@@ -21,4 +21,4 @@ export const handler = async (event) => {
       headers: responseHeaders,
       body: JSON.stringify({ error: 'Product not found' }),
   };
-  };
+};
