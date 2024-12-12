@@ -1,24 +1,29 @@
-import { createProduct, getProduct } from './controllers/ProductController.mjs';
+import { resolvePath } from "./routes/apiRoutes.mjs";
 
 
 export const handler = async (event) => {
-    let productId = "d376f2a7-c9e3-438b-a893-7b53dbf6d320";
-    const product = await getProduct(productId);
-
+    console.log(event);
+    const operationType = event.typeName; // Type of operation - in our case, Query or mutation
+    const operationName = event.fieldName // nbame of the operation - getProductsById, listAllProducts, and so on
+    
     const responseHeaders = {
       'Content-Type': 'application/json',
   };
-
-    if (product) {
-        return {
-            statusCode: 200,
-            headers: responseHeaders,
-            body: JSON.stringify(product),
-        };
+   const resolver = resolvePath(operationType, operationName);
+   if (resolver){
+    var result = await resolver(event);
+    console.log(result);
+    if (result) {
+      return {
+          statusCode: 200,
+          headers: responseHeaders,
+          body: JSON.stringify(result),
+      };
     }
-    return {
-      statusCode: 404,
-      headers: responseHeaders,
-      body: JSON.stringify({ error: 'Product not found' }),
+   }
+   return {
+    statusCode: 404,
+    headers: responseHeaders,
+    body: JSON.stringify({ error: 'No handler found for the given request.' }),
   };
 };

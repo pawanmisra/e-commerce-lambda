@@ -1,19 +1,23 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import {dynamoDB} from '../models/dbClient.mjs';
-const TABLE_NAME = 'Products-2bzn42vh7nhcrm74cidhalg4yy-dev';
+const TABLE_NAME = 'Products-njf7zlhvlvbqrb5ibmokr6ll3e-dev';
 
 export const createProduct = async (event) => {
-    const { ProductId, Name, Description, Price, Category, Stock } = JSON.parse(event.body);
+    console.log(event.input);
+    const { name, description, price, category, stock } = event.input;
+    console.log(name);
     const timestamp = new Date().toISOString();
 
     const params = {
         TableName: TABLE_NAME,
         Item: {
-            ProductId,
-            Name,
-            Description,
-            Price,
-            Category,
-            Stock,
+            productId: uuidv4().toString(),
+            name,
+            description,
+            price,
+            category,
+            stock,
             CreatedAt: timestamp,
             UpdatedAt: timestamp,
         },
@@ -33,10 +37,67 @@ export const createProduct = async (event) => {
     }
 };
 
-export const getProduct = async (productId) => {
+export const updateProduct = async (event) => {
+    console.log(event.input);
+    const { productId, name, description, price, category, stock } = event.input;
+    console.log(name);
+    const timestamp = new Date().toISOString();
+
     const params = {
         TableName: TABLE_NAME,
-        Key: { id: productId },
+        Key: {productId: productId},
+        UpdateExpression: "set #name = :n, description = :d, price = :p, category = :c, stock = :s, UpdatedAt = :u",
+        ExpressionAttributeNames: {
+            "#name": "name",
+         },         
+        ExpressionAttributeValues: {
+            ":n": name,
+            ":d": description,
+            ":p": price,
+            ":c": category,
+            ":s": stock,
+            ":u": timestamp
+          }
+    };
+
+    try {
+        await dynamoDB.update(params).promise();
+        return {
+            statusCode: 201,
+            body: JSON.stringify({ message: 'Product updated successfully' }),
+        };
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: error.message }),
+        };
+    }
+};
+
+
+
+export const deleteProduct = async (productId) => {
+    const params = {
+        TableName: TABLE_NAME,
+        Key: { productId: productId },
+    };
+    
+    try {
+        await dynamoDB.delete(params).promise();
+        return {
+            statusCode: 201,
+            body: JSON.stringify({ message: 'Product deleted successfully' }),
+        };
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        throw new Error('Could not delete product');
+    }
+};
+
+export const getProductsById = async (productId) => {
+    const params = {
+        TableName: TABLE_NAME,
+        Key: { productId: productId },
     };
 
     try {
@@ -45,5 +106,19 @@ export const getProduct = async (productId) => {
     } catch (error) {
         console.error('Error fetching product:', error);
         throw new Error('Could not fetch product');
+    }
+};
+
+export const listAllProducts = async () => {
+    const params = {
+        TableName: TABLE_NAME
+    };
+
+    try {
+        const result = await dynamoDB.scan(params).promise();
+        return result.Items || null;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        throw new Error('Could not fetch products');
     }
 };
