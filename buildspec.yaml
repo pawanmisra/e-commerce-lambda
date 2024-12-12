@@ -7,8 +7,13 @@ phases:
   build:
     commands:
       - echo "Zipping the lambda function and AppSpec file"
-      - zip -r function.zip index.mjs appspec.yml
-artifacts:
-  files:
-    - function.zip
-    - appspec.yml
+      - zip -r lambda-function.zip index.mjs appspec.yml
+  post_build:
+    commands:
+      - echo "deploying the lambda"
+      - aws lambda update-function-code --function-name e-commerce-api-lambda --zip-file fileb://lambda-package.zip
+# needed for code deploy
+# artifacts:
+#   files:
+#     - function.zip
+#     - appspec.yml 
