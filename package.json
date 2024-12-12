@@ -1,0 +1,11 @@
+{
+    "name": "e-commerce-lambda",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "node ."
+    },
+    "dependencies": {
+        "aws-sdk": "^2.1692.0"
+    }
+}
