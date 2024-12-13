@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "start": "node .",
-        "test": "jest",
+        "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
         "lint": "eslint ."
     },
     "jest": {
