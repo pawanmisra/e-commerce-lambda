@@ -7,9 +7,9 @@ phases:
   build:
     commands:
       - echo "Zipping the lambda function and AppSpec file"
+      - zip -r lambda-function.zip . -x buildspec.yaml
       - npm run lint
       - npm test
-      - zip -r lambda-function.zip . -x buildspec.yaml
   post_build:
     commands:
       - echo "deploying the lambda"

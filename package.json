@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node .",
         "test": "node --experimental-vm-modules node_modules/.bin/jest",
-        "lint": "eslint . --fix"
+        "lint": "eslint ."
     },
     "jest": {
         "transform": {
