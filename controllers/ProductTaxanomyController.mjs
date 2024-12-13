@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {dynamoDB} from '../clients/dbClient.mjs';
 const TABLE_NAME = 'ProductTaxonomyAttribute-njf7zlhvlvbqrb5ibmokr6ll3e-dev';
 
+// Hanlder for createProductTaxonomy API
 export const createProductTaxonomy = async (event) => {
     const { name, description, parentId, type } = event.input;
     console.log(name);
@@ -32,10 +33,9 @@ export const createProductTaxonomy = async (event) => {
     }
 };
 
+// Hanlder for updateProductTaxonomy API
 export const updateProductTaxonomy = async (event) => {
-    console.log(event.input);
     const { taxonomyId, name, description, parentId, type } = event.input;
-    console.log(name);
     const timestamp = new Date().toISOString();
 
     const params = {
@@ -64,6 +64,7 @@ export const updateProductTaxonomy = async (event) => {
     }
 };
 
+// Hanlder for getProductTaxonomyByParentId API
 const getProductTaxonomyByParentId = async (parentId) => {
     const params = {
         TableName: TABLE_NAME,
@@ -83,6 +84,7 @@ const getProductTaxonomyByParentId = async (parentId) => {
     }
 }
 
+// Hanlder for deleteProductTaxonomy API
 export const deleteProductTaxonomy = async (taxonomyId) => {
     const params = {
         TableName: TABLE_NAME,
@@ -92,7 +94,6 @@ export const deleteProductTaxonomy = async (taxonomyId) => {
     try {
         // check if the given id is parentId of any item
         const existingTaxonomyWithGivenIdAsParent = await getProductTaxonomyByParentId(taxonomyId);
-        console.log(existingTaxonomyWithGivenIdAsParent)
         if (existingTaxonomyWithGivenIdAsParent.length>0) {
             console.log("inside if condition")
             return 'Product taxonomy cannot be deleted as its already associated with other item(s).';
@@ -105,6 +106,7 @@ export const deleteProductTaxonomy = async (taxonomyId) => {
     }
 };
 
+// Hanlder for getProductTaxonomyById API
 export const getProductTaxonomyById = async (taxonomyId) => {
     const params = {
         TableName: TABLE_NAME,
@@ -120,6 +122,7 @@ export const getProductTaxonomyById = async (taxonomyId) => {
     }
 };
 
+// Hanlder for listAllProductTaxonomies API
 export const listAllProductTaxonomies = async () => {
     const params = {
         TableName: TABLE_NAME

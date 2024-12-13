@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {dynamoDB} from '../clients/dbClient.mjs';
 const TABLE_NAME = 'Products-njf7zlhvlvbqrb5ibmokr6ll3e-dev';
 
+// Hanlder for createProduct API
 export const createProduct = async (event) => {
     const { name, description, price, category, stock } = event.input;
     const timestamp = new Date().toISOString();
@@ -32,6 +33,7 @@ export const createProduct = async (event) => {
     }
 };
 
+// Hanlder for updateProduct API
 export const updateProduct = async (event) => {
     const { productId, name, description, price, category, stock } = event.input;
     const timestamp = new Date().toISOString();
@@ -64,8 +66,7 @@ export const updateProduct = async (event) => {
     }
 };
 
-
-
+// Hanlder for deleteProduct API
 export const deleteProduct = async (productId) => {
     const params = {
         TableName: TABLE_NAME,
@@ -81,6 +82,7 @@ export const deleteProduct = async (productId) => {
     }
 };
 
+// Hanlder for getProductsById API
 export const getProductsById = async (productId) => {
     const params = {
         TableName: TABLE_NAME,
@@ -96,6 +98,7 @@ export const getProductsById = async (productId) => {
     }
 };
 
+// Hanlder for listAllProducts API
 export const listAllProducts = async () => {
     const params = {
         TableName: TABLE_NAME
