@@ -13,11 +13,15 @@ phases:
   build:
     commands:
       - echo "Zipping the lambda function and AppSpec file"
-      - zip -r lambda-function.zip . -x buildspec.yaml
+      - filename=lambda-function-$(date +%b-%d-%y-%H%m%s).zip
+      - zip -r $filename . -x buildspec.yaml
+      - echo "Copying Zip file to S3"
+      - aws s3 cp $filename s3://e-commerce-lambda-code-pipeline/$filename
       - echo "Exeuting tests"
       # - npm test
       # - npm run lint
   post_build:
     commands:
       - echo "deploying the lambda"
-      - aws lambda update-function-code --function-name e-commerce-api-lambda --zip-file fileb://lambda-function.zip
+      - aws lambda update-function-code --function-name e-commerce-api-lambda --s3-bucket e-commerce-lambda-code-pipeline --s3-key $filename
+      # - aws lambda update-function-code --function-name e-commerce-api-lambda --zip-file fileb://lambda-function.zip
