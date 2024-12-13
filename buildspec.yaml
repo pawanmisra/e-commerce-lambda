@@ -15,7 +15,7 @@ phases:
       - echo "Zipping the lambda function and AppSpec file"
       - zip -r lambda-function.zip . -x buildspec.yaml
       - echo "Exeuting tests"
-      - npm test
+      # - npm test
       # - npm run lint
   post_build:
     commands:

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import {dynamoDB} from '../models/dbClient.mjs';
+import {dynamoDB} from '../clients/dbClient.mjs';
 const TABLE_NAME = 'ProductTaxonomyAttribute-njf7zlhvlvbqrb5ibmokr6ll3e-dev';
 
 export const createProductTaxonomy = async (event) => {
@@ -16,8 +16,8 @@ export const createProductTaxonomy = async (event) => {
             description,
             parentId,
             type,
-            CreatedAt: timestamp,
-            UpdatedAt: timestamp,
+            createdAt: timestamp,
+            updatedAt: timestamp,
         },
     };
 
@@ -41,7 +41,7 @@ export const updateProductTaxonomy = async (event) => {
     const params = {
         TableName: TABLE_NAME,
         Key: { taxonomyId: taxonomyId },
-        UpdateExpression: "set #name = :n, description = :d, #type = :t, parentId = :p, UpdatedAt = :u",
+        UpdateExpression: "set #name = :n, description = :d, #type = :t, parentId = :p, updatedAt = :u",
         ExpressionAttributeNames: {
             "#name": "name",
             "#type": "type",

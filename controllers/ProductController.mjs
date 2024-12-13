@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import {dynamoDB} from '../models/dbClient.mjs';
+import {dynamoDB} from '../clients/dbClient.mjs';
 const TABLE_NAME = 'Products-njf7zlhvlvbqrb5ibmokr6ll3e-dev';
 
 export const createProduct = async (event) => {
@@ -16,8 +16,8 @@ export const createProduct = async (event) => {
             price,
             category,
             stock,
-            CreatedAt: timestamp,
-            UpdatedAt: timestamp,
+            createdAt: timestamp,
+            updatedAt: timestamp,
         }
     };
 
@@ -39,7 +39,7 @@ export const updateProduct = async (event) => {
     const params = {
         TableName: TABLE_NAME,
         Key: {productId: productId},
-        UpdateExpression: "set #name = :n, description = :d, price = :p, category = :c, stock = :s, UpdatedAt = :u",
+        UpdateExpression: "set #name = :n, description = :d, price = :p, category = :c, stock = :s, updatedAt = :u",
         ExpressionAttributeNames: {
             "#name": "name",
          },         

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { createProduct, deleteProduct, getProductsById, updateProduct } from '../../controllers/ProductController.mjs';
-import { dynamoDB } from '../../models/dbClient.mjs';
+import { dynamoDB } from '../../clients/dbClient.mjs';
 import { jest } from '@jest/globals';
 
 const mockedResolvePath = jest.fn();
@@ -12,7 +12,7 @@ const mockProductObject = {
     category: 'Updated Category',
     stock: 5,
 }
-jest.mock('../../models/dbClient.mjs', () => ({
+jest.mock('../../clients/dbClient.mjs', () => ({
   dynamoDB: {
     put: mockedResolvePath,
     update: mockedResolvePath,
