@@ -93,7 +93,7 @@ export const deleteProductTaxonomy = async (taxonomyId) => {
         // check if the given id is parentId of any item
         const existingTaxonomyWithGivenIdAsParent = await getProductTaxonomyByParentId(taxonomyId);
         console.log(existingTaxonomyWithGivenIdAsParent)
-        if (existingTaxonomyWithGivenIdAsParent) {
+        if (existingTaxonomyWithGivenIdAsParent.length>0) {
             console.log("inside if condition")
             return 'Product taxonomy cannot be deleted as its already associated with other item(s).';
         }
