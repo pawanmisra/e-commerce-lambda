@@ -12,7 +12,6 @@ export const handler = async (event) => {
    const resolver = resolvePath(operationType, operationName);
    if (resolver){
     var result = await resolver(event);
-    console.log(result);
     if (result) {
       return result
     }

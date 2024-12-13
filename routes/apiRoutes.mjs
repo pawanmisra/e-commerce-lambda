@@ -46,6 +46,6 @@ export const resolvePath = (operationType, operationName) => {
         console.log(opResolver)
         return opResolver;
       }
-      return null
     }
+    return null
 }

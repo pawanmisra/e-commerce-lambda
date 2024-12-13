@@ -4,9 +4,7 @@ import {dynamoDB} from '../models/dbClient.mjs';
 const TABLE_NAME = 'Products-njf7zlhvlvbqrb5ibmokr6ll3e-dev';
 
 export const createProduct = async (event) => {
-    console.log(event.input);
     const { name, description, price, category, stock } = event.input;
-    console.log(name);
     const timestamp = new Date().toISOString();
 
     const params = {
@@ -35,9 +33,7 @@ export const createProduct = async (event) => {
 };
 
 export const updateProduct = async (event) => {
-    console.log(event.input);
     const { productId, name, description, price, category, stock } = event.input;
-    console.log(name);
     const timestamp = new Date().toISOString();
 
     const params = {
